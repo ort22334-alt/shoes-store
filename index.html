@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Каталог обуви</title>
+    <style>
+        body { font-family: Arial; margin: 20px; background: #f4f4f4; }
+        .card { display: flex; gap: 15px; background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; align-items: center; }
+        .card img { width: 80px; height: 60px; object-fit: cover; border-radius: 4px; }
+        .actions { margin-left: auto; }
+        .search { margin-bottom: 20px; }
+        .search input { padding: 10px; width: 300px; }
+    </style>
+</head>
+<body>
+    <h1>👟 Каталог обуви</h1>
+    
+    <div class="search">
+        <input type="text" id="search-input" placeholder="Поиск по названию или бренду..." />
+    </div>
+
+    <div id="product-list">
+        <p>Загрузка товаров...</p>
+    </div>
+
+    <script>
+        const productList = document.getElementById("product-list");
+        const searchInput = document.getElementById("search-input");
+
+        const loadProducts = async (search = "") => {
+            const res = await fetch(`/api/products?search=${encodeURIComponent(search)}`);
+            const products = await res.json();
+            productList.innerHTML = products.length
+                ? products.map(p => `
+                    <div class="card">
+                        <img src="${p.image_path}" alt="${p.name}" onerror="this.src='static/placeholder.jpg'">
+                        <div>
+                            <strong>${p.name}</strong><br>
+                            <small>${p.brand}</small><br>
+                            <b>${p.price} ₽</b>
+                        </div>
+                        <div class="actions">
+                            <button onclick="alert('Товар ${p.id} добавлен')">Купить</button>
+                        </div>
+                    </div>
+                `).join("")
+                : "<p>Товары не найдены.</p>";
+        };
+
+        searchInput.addEventListener("input", (e) => {
+            loadProducts(e.target.value);
+        });
+
+        // Загрузка при старте
+        loadProducts();
+    </script>
+</body>
+</html>
