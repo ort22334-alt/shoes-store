@@ -390,6 +390,47 @@
 
     <script>
         // Показать модальное окно
+        <script>
+    // === Данные пользователей (для демонстрации, в реальности — API) ===
+    const USERS = {
+        admin: { login: 'admin', password: 'admin123', name: 'Администратор', role: 'admin' },
+        manager: { login: 'manager', password: 'manager', name: 'Менеджер', role: 'manager' },
+        user: { login: 'user', password: 'user', name: 'Пользователь', role: 'user' }
+    };
+
+    // === DOM-элементы ===
+    const loginSection = document.getElementById('login-section');
+    const mainContent = document.getElementById('main-content');
+    const loginInput = document.getElementById('login-input');
+    const passwordInput = document.getElementById('password-input');
+    const loginButton = document.getElementById('login-button');
+    const guestButton = document.getElementById('guest-button');
+    const loginErrorMessage = document.getElementById('login-error-message');
+    const currentUserNameSpan = document.getElementById('current-user-name');
+    const currentUserRoleSpan = document.getElementById('current-user-role');
+    const logoutButton = document.getElementById('logout-button');
+
+    const catalogControls = document.getElementById('catalog-controls');
+    const addProductButton = document.getElementById('add-product-button');
+    const addOrderButton = document.getElementById('add-order-button');
+    const ordersSection = document.getElementById('orders-section');
+    const productList = document.getElementById('product-list');
+
+    let currentUser = null;
+
+    // === Вспомогательные функции ===
+    const showElement = (el) => el.classList.remove('hidden');
+    const hideElement = (el) => el.classList.add('hidden');
+    const clearElement = (el) => el.innerHTML = '';
+
+    // === Заглушка: имитация списка товаров ===
+    const mockProducts = [
+        { id: 1, name: 'Кроссовки Nike Air', brand: 'Nike', price: 8990, discount: 10, stock: 5, image_path: 'https://via.placeholder.com/80x60?text=Nike' },
+        { id: 2, name: 'Ботинки Timberland', brand: 'Timberland', price: 12990, discount: 0, stock: 0, image_path: 'https://via.placeholder.com/80x60?text=Timberland' },
+        { id: 3, name: 'Сандалии Adidas', brand: 'Adidas', price: 3990, discount: 20, stock: 12, image_path: 'https://via.placeholder.com/80x60?text=Adidas' }
+    ];
+
+    // === Рендер товаров
         function showProductForm() {
             document.getElementById('product-form-modal').style.display = 'block';
             document.getElementById('modal-overlay').style.display = 'block';
