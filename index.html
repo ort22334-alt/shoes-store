@@ -1,58 +1,505 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8">
     <title>Каталог обуви</title>
     <style>
-        body { font-family: Arial; margin: 20px; background: #f4f4f4; }
-        .card { display: flex; gap: 15px; background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; align-items: center; }
-        .card img { width: 80px; height: 60px; object-fit: cover; border-radius: 4px; }
-        .actions { margin-left: auto; }
-        .search { margin-bottom: 20px; }
-        .search input { padding: 10px; width: 300px; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+            .header h1 {
+                margin: 0;
+                color: #333;
+            }
+
+        .user-info {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+            .user-info span {
+                font-weight: bold;
+            }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+            .controls input[type="text"], .controls select {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .controls .search-input {
+                flex-grow: 1;
+                min-width: 200px;
+            }
+
+            .controls .filter-select {
+                min-width: 150px;
+            }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .btn-details {
+            background-color: #6c757d;
+            color: white;
+        }
+
+            .btn-details:hover {
+                background-color: #5a6268;
+            }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+            .btn-danger:hover {
+                background-color: #c82333;
+            }
+
+        .btn-edit {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+            .btn-edit:hover {
+                background-color: #e0a800;
+            }
+
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+        }
+
+            .btn-add:hover {
+                background-color: #218838;
+            }
+
+        .card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            border-radius: 4px;
+            background: #fff;
+        }
+
+            .card img {
+                width: 80px;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 4px;
+            }
+
+        .card-info {
+            flex-grow: 1;
+        }
+
+            .card-info strong {
+                display: block;
+                font-size: 1.1em;
+            }
+
+            .card-info small {
+                color: #777;
+            }
+
+        .card-price {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-price-old {
+            text-decoration: line-through;
+            color: red;
+            margin-right: 5px;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #eee;
+            font-size: 0.9em;
+        }
+
+        .discount-high {
+            background: #2E8B57;
+            color: white;
+        }
+
+        .out-of-stock {
+            background: lightblue;
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+            margin-left: auto;
+        }
+
+        #login-section {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+            #login-section h2 {
+                margin-bottom: 20px;
+                color: #333;
+            }
+
+        .login-form {
+            display: inline-block;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+            .login-form input {
+                display: block;
+                width: 300px;
+                margin-bottom: 15px;
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 1em;
+            }
+
+            .login-form p {
+                margin-top: 10px;
+                font-size: 0.9em;
+            }
+
+        #orders-section {
+            margin-top: 20px;
+        }
+
+            #orders-section table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+
+            #orders-section th, #orders-section td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: left;
+            }
+
+            #orders-section th {
+                background-color: #f2f2f2;
+            }
+
+            #orders-section tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+        .order-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Модальное окно */
+        #product-form-modal {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        #modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        #product-form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        #product-form input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #form-preview {
+            margin: 10px 0;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>👟 Каталог обуви</h1>
-    
-    <div class="search">
-        <input type="text" id="search-input" placeholder="Поиск по названию или бренду..." />
+
+    <div class="container">
+        <!-- 1. Форма входа -->
+        <div id="login-section">
+            <h2>Вход в систему</h2>
+            <div class="login-form">
+                <input type="text" id="login-input" placeholder="Логин">
+                <input type="password" id="password-input" placeholder="Пароль">
+                <button id="login-button" class="btn btn-primary">Войти</button>
+                <button id="guest-button" class="btn btn-details">Войти как гость</button>
+                <p id="login-error-message" class="hidden">Неверный логин или пароль.</p>
+            </div>
+        </div>
+
+        <!-- 2. Основной контент -->
+        <div id="main-content" class="hidden">
+            <header class="header">
+                <h1>Каталог обуви</h1>
+                <div class="user-info">
+                    Привет, <span id="current-user-name">Гость</span>!
+                    (<span id="current-user-role"></span>)
+                    <button id="logout-button" class="btn btn-details btn-sm hidden">Выйти</button>
+                </div>
+            </header>
+
+            <div class="controls" id="catalog-controls">
+                <input type="text" id="search-input" class="search-input" placeholder="Поиск по названию, бренду...">
+                <select id="sort-select" class="filter-select">
+                    <option value="">Сортировать по...</option>
+                    <option value="price-asc">Цене (возрастание)</option>
+                    <option value="price-desc">Цене (убывание)</option>
+                    <option value="name-asc">Названию (А-Я)</option>
+                    <option value="name-desc">Названию (Я-А)</option>
+                </select>
+                <select id="brand-filter" class="filter-select">
+                    <option value="">Вид</option>
+                    <option value="кроссовки">кроссовки</option>
+                    <option value="ботинки">ботинки</option>
+                    <option value="сандалии">сандалии</option>
+                </select>
+                <button id="add-product-button" class="btn btn-add hidden">Добавить товар</button>
+            </div>
+
+            <main class="product-grid" id="product-list">
+                <!-- Товары загрузятся сюда -->
+            </main>
+
+            <div id="orders-section" class="hidden">
+                <h2>Заказы</h2>
+                <table id="orders-table">
+                    <thead>
+                        <tr>
+                            <th>ID Заказа</th>
+                            <th>Пользователь</th>
+                            <th>Сумма</th>
+                            <th>Статус</th>
+                            <th>Дата</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Строки заказов -->
+                    </tbody>
+                </table>
+                <button id="add-order-button" class="btn btn-add hidden">Добавить заказ</button>
+            </div>
+        </div>
     </div>
 
-    <div id="product-list">
-        <p>Загрузка товаров...</p>
+    <!-- Модальное окно для добавления товара -->
+    <div id="product-form-modal" class="hidden">
+        <h3 id="form-title">Добавить товар</h3>
+        <form id="product-form">
+            <input type="hidden" id="product-id">
+            <label>Название: <input type="text" id="form-name" required></label><br><br>
+            <label>Бренд: <input type="text" id="form-brand" required></label><br><br>
+            <label>Цена: <input type="number" id="form-price" step="0.01" required></label><br><br>
+            <label>Единица: <input type="text" id="form-unit" value="пара" required></label><br><br>
+            <label>Количество: <input type="number" id="form-stock" required></label><br><br>
+            <label>Скидка (%): <input type="number" id="form-discount" value="0"></label><br><br>
+            <label>Изображение: <input type="file" id="form-image" accept="image/*"></label><br><br>
+            <img id="form-preview" src="" width="100" style="display: none;">
+            <br>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <button type="button" class="btn btn-danger" onclick="hideProductForm()">Отмена</button>
+        </form>
     </div>
+    <div id="modal-overlay" class="hidden"></div>
 
     <script>
-        const productList = document.getElementById("product-list");
-        const searchInput = document.getElementById("search-input");
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginSection = document.getElementById('login-section');
+            const mainContent = document.getElementById('main-content');
+            const loginInput = document.getElementById('login-input');
+            const passwordInput = document.getElementById('password-input');
+            const loginButton = document.getElementById('login-button');
+            const guestButton = document.getElementById('guest-button');
+            const loginErrorMessage = document.getElementById('login-error-message');
+            const currentUserRoleSpan = document.getElementById('current-user-role');
+            const currentUserNameSpan = document.getElementById('current-user-name');
+            const logoutButton = document.getElementById('logout-button');
 
-        const loadProducts = async (search = "") => {
-            const res = await fetch(`/api/products?search=${encodeURIComponent(search)}`);
-            const products = await res.json();
-            productList.innerHTML = products.length
-                ? products.map(p => `
+            const catalogControls = document.getElementById('catalog-controls');
+            const searchInput = document.getElementById('search-input');
+            const sortSelect = document.getElementById('sort-select');
+            const brandFilter = document.getElementById('brand-filter');
+            const addProductButton = document.getElementById('add-product-button');
+            const productList = document.getElementById('product-list');
+            const ordersSection = document.getElementById('orders-section');
+            const addOrderButton = document.getElementById('add-order-button');
+
+            const formModal = document.getElementById('product-form-modal');
+            const formOverlay = document.getElementById('modal-overlay');
+            const productForm = document.getElementById('product-form');
+            const formPreview = document.getElementById('form-preview');
+
+            let currentUser = null;
+
+            const showElement = (element) => element.classList.remove('hidden');
+            const hideElement = (element) => element.classList.add('hidden');
+            const clearElement = (element) => element.innerHTML = '';
+
+            const renderProduct = (product) => {
+                const discountedPrice = product.price * (1 - product.discount / 100);
+                const priceDisplay = product.discount > 0
+                    ? `<span class="card-price-old">${product.price} ₽</span><span>${discountedPrice.toFixed(2)} ₽</span>`
+                    : `<span class="card-price">${product.price} ₽</span>`;
+
+                const badgeDisplay = product.stock === 0
+                    ? '<span class="badge out-of-stock">Нет в наличии</span>'
+                    : `<span class="badge">В наличии: ${product.stock}</span>`;
+
+                return `
                     <div class="card">
-                        <img src="${p.image_path}" alt="${p.name}" onerror="this.src='static/placeholder.jpg'">
-                        <div>
-                            <strong>${p.name}</strong><br>
-                            <small>${p.brand}</small><br>
-                            <b>${p.price} ₽</b>
+                        <img src="${product.image_path || 'https://via.placeholder.com/80x60'}" alt="${product.name}">
+                        <div class="card-info">
+                            <strong>${product.name}</strong>
+                            <small>${product.brand}</small><br>
+                            ${priceDisplay}
                         </div>
                         <div class="actions">
-                            <button onclick="alert('Товар ${p.id} добавлен')">Купить</button>
+                            ${badgeDisplay}
+                            <button class="btn btn-details btn-sm view-product-btn" data-id="${product.id}">Подробнее</button>
+                            <button class="btn btn-edit btn-sm edit-product-btn" data-id="${product.id}">Редактировать</button>
+                            <button class="btn btn-danger btn-sm delete-product-btn" data-id="${product.id}">Удалить</button>
                         </div>
                     </div>
-                `).join("")
-                : "<p>Товары не найдены.</p>";
-        };
+                `;
+            };
 
-        searchInput.addEventListener("input", (e) => {
-            loadProducts(e.target.value);
-        });
+            const displayProducts = (productListToRender) => {
+                clearElement(productList);
+                if (productListToRender.length === 0) {
+                    productList.innerHTML = '<p>Товары не найдены.</p>';
+                    return;
+                }
+                productListToRender.forEach(product => {
+                    productList.innerHTML += renderProduct(product);
+                });
+            };
 
-        // Загрузка при старте
-        loadProducts();
-    </script>
-</body>
-</html>
+            const fetchProducts = async (filters = {}) => {
+                const params = new URLSearchParams();
+                if (filters.search) params.append('search', filters.search);
+                if (filters.brand) params.append('brand', filters.brand);
+                if (filters.sort) params.append('sort', filters.sort);
+
+                try {
+                    const response = await fetch(`api/products.php?${params}`);
+                    return await response.json();
+                } catch (err) {
+                    console.error("Ошибка загрузки товаров:", err);
+                    return [];
+                }
+            };
+
+            const loginUser = async (login, password) => {
+                // В реальности: fetch('/api/login', { method: 'POST', body: JSON.stringify(...) })
+                await new Promise(r => setTimeout(r, 500));
+                if (login === 'admin' && password === 'admin123') {
+                    return { success: true, user: { name: 'Администратор', role: 'admin' } };
+                } else if (login === 'manager' && password === 'manager') {
+                    return { success: true, user: { name: 'Менеджер', role: 'manager' } };
+                } else if (login === 'user' && password === 'user') {
+                    return { success: true, user: { name: 'Пользователь', role: 'user' } };
+                } else {
+                    return { success: false, message: 'Неверный логин или пароль' };
+                }
+            };
+
+            const updateUIForRole = (role) => {
+                hideElement(addProductButton);
+                hideElement(addOrderButton);
+                document.querySelectorAll('.edit-product-btn, .delete-product-btn').forEach(btn => hideElement(btn));
+                document.querySelectorAll('.edit-order-btn, .delete-order-btn').forEach(btn => hideElement(btn));
+
+                hideElement(loginSection);
+                showElement(mainContent);
+                showElement(catalogControls);
+                showElement(logoutButton);
+
+                currentUserRoleSpan.textContent = role || 'Гость';
+                currentUserNameSpan.textContent = currentUser?.name || 'Гость';
+
+                switch (role) {
+                    case 'admin':
+                        showElement
