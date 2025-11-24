@@ -1,0 +1,4 @@
+name,category_id,manufacturer_id,supplier_id,description,price,unit,quantity,discount_percent,image_path
+Air Runner,1,1,1,Лёгкие беговые кроссовки,4999.00,пара,25,10,uploads/products/air_runner.jpg
+Classic Boot,2,3,2,Тёплые ботинки для осени,7999.00,пара,0,20,uploads/products/classic_boot.jpg
+Beach Sandal,3,2,3,Удобные летние сандалии,1299.00,пара,50,5,uploads/products/beach_sandal.jpg
